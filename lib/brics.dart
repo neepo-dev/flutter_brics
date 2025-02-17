@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 enum BricWidth { xs, sm, md, lg, xl, xxl }
 
-// верхние границы диапазонов
+// upper breakpoints
 const defaultBricsBreakpoints = BricsBreakpointsConfig(
   xs: 576,
   sm: 768,
@@ -39,8 +38,8 @@ class BricsConfig extends InheritedWidget {
   }) : super(child: child ?? const SizedBox.shrink());
 
   static BricsConfig of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<BricsConfig>()
-        ?? const BricsConfig();
+    return context.dependOnInheritedWidgetOfExactType<BricsConfig>() ??
+        const BricsConfig();
   }
 
   @override
@@ -69,9 +68,12 @@ class Brics extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final bricsConstraints = maxWidth == null ? null : BoxConstraints(
-            maxWidth: constraints.maxWidth < maxWidth! ? constraints.maxWidth : maxWidth!
-        );
+        final bricsConstraints = maxWidth == null
+            ? null
+            : BoxConstraints(
+                maxWidth: constraints.maxWidth < maxWidth!
+                    ? constraints.maxWidth
+                    : maxWidth!);
         return Align(
           alignment: alignment,
           child: Container(
@@ -102,9 +104,11 @@ class Bric extends StatelessWidget {
     this.child,
     this.builder,
     this.size = const {},
-  }) : assert(child != null || builder != null, 'Either child or builder must be provided.');
+  }) : assert(child != null || builder != null,
+            'Either child or builder must be provided.');
 
-  int _getColumnCount(double width, int totalColumns, BricsBreakpointsConfig breakpoints) {
+  int _getColumnCount(
+      double width, int totalColumns, BricsBreakpointsConfig breakpoints) {
     if (width < breakpoints.xs) {
       return size[BricWidth.xs] ?? totalColumns;
     }
@@ -112,30 +116,49 @@ class Bric extends StatelessWidget {
       return size[BricWidth.sm] ?? size[BricWidth.xs] ?? totalColumns;
     }
     if (width < breakpoints.md) {
-      return size[BricWidth.md] ?? size[BricWidth.sm] ?? size[BricWidth.xs] ?? totalColumns;
+      return size[BricWidth.md] ??
+          size[BricWidth.sm] ??
+          size[BricWidth.xs] ??
+          totalColumns;
     }
     if (width < breakpoints.lg) {
-      return size[BricWidth.lg] ?? size[BricWidth.md] ?? size[BricWidth.sm] ?? size[BricWidth.xs] ?? totalColumns;
+      return size[BricWidth.lg] ??
+          size[BricWidth.md] ??
+          size[BricWidth.sm] ??
+          size[BricWidth.xs] ??
+          totalColumns;
     }
     if (width < breakpoints.xl) {
-      return size[BricWidth.xl] ?? size[BricWidth.lg] ?? size[BricWidth.md] ?? size[BricWidth.sm] ?? size[BricWidth.xs] ?? totalColumns;
+      return size[BricWidth.xl] ??
+          size[BricWidth.lg] ??
+          size[BricWidth.md] ??
+          size[BricWidth.sm] ??
+          size[BricWidth.xs] ??
+          totalColumns;
     }
-    return size[BricWidth.xxl] ?? size[BricWidth.xl] ?? size[BricWidth.lg] ?? size[BricWidth.md] ?? size[BricWidth.sm] ?? size[BricWidth.xs] ?? totalColumns;
+    return size[BricWidth.xxl] ??
+        size[BricWidth.xl] ??
+        size[BricWidth.lg] ??
+        size[BricWidth.md] ??
+        size[BricWidth.sm] ??
+        size[BricWidth.xs] ??
+        totalColumns;
   }
-
 
   @override
   Widget build(BuildContext context) {
     final config = BricsConfig.of(context);
     final width = MediaQuery.sizeOf(context).width;
-    final columnCount = _getColumnCount(width, config.totalColumns, config.breakpoints);
+    final columnCount =
+        _getColumnCount(width, config.totalColumns, config.breakpoints);
     final brics = context.findAncestorWidgetOfExactType<Brics>();
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final gap = brics?.gap ?? 0;
         final totalColumns = config.totalColumns;
-        final columnWidth = (constraints.maxWidth - gap * (totalColumns - 1)) / totalColumns;
+        final columnWidth =
+            (constraints.maxWidth - gap * (totalColumns - 1)) / totalColumns;
         final bricWidth = columnCount * columnWidth + (columnCount - 1) * gap;
 
         return SizedBox(
