@@ -67,11 +67,15 @@ class BricsConfig extends InheritedWidget {
 }
 
 /// Brics container with optional width control.
+/// In case of error "LayoutBuilder does not support returning intrinsic dimensions":
+/// you just need to set the [width] parameter.
+/// It wraps the entire layout in a fixed-size container.
 class Brics extends StatelessWidget {
   final List<Widget> children;
   final double? gap;
   final double? crossGap;
   final double? maxWidth;
+  final double? width;
   final EdgeInsetsGeometry? padding;
   final Alignment alignment;
 
@@ -81,6 +85,7 @@ class Brics extends StatelessWidget {
     this.gap,
     this.crossGap,
     this.maxWidth,
+    this.width,
     this.padding = EdgeInsets.zero,
     this.alignment = Alignment.topCenter,
   });
@@ -93,7 +98,7 @@ class Brics extends StatelessWidget {
     final effectiveCrossGap = crossGap ?? config.crossGap;
     final effectiveMaxWidth = maxWidth ?? config.maxWidth;
 
-    return LayoutBuilder(
+    final content = LayoutBuilder(
       builder: (context, constraints) {
         final constrainedMaxWidth = effectiveMaxWidth != null
             ? min(constraints.maxWidth, effectiveMaxWidth)
@@ -114,6 +119,13 @@ class Brics extends StatelessWidget {
         );
       },
     );
+
+    return (width == null)
+      ? content
+      : SizedBox(
+        width: width,
+        child: content,
+      );
   }
 }
 
