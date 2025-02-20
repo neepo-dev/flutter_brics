@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Added an example preview in the Readme section.
+
 ## 0.1.1
 
 - Added a usage examples.
