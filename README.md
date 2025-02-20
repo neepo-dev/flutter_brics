@@ -1,4 +1,4 @@
-# bric
+# brics
 
 A flexible and lightweight Flutter layout system inspired by Bootstrap.
 
