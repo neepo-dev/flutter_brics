@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 /// Enum for breakpoints.
@@ -37,12 +38,18 @@ const defaultBricsBreakpoints = BricsBreakpointsConfig(
 class BricsConfig extends InheritedWidget {
   final BricsBreakpointsConfig breakpoints;
   final int totalColumns;
+  final double gap;
+  final double crossGap;
+  final double? maxWidth;
 
   const BricsConfig({
     super.key,
     Widget? child,
-    this.totalColumns = 12,
     this.breakpoints = defaultBricsBreakpoints,
+    this.totalColumns = 12,
+    this.gap = 0,
+    this.crossGap = 0,
+    this.maxWidth,
   }) : super(child: child ?? const SizedBox.shrink());
 
   static BricsConfig of(BuildContext context) {
@@ -51,14 +58,19 @@ class BricsConfig extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
+  bool updateShouldNotify(covariant BricsConfig oldWidget) =>
+      breakpoints != oldWidget.breakpoints ||
+      totalColumns != oldWidget.totalColumns ||
+      gap != oldWidget.gap ||
+      crossGap != oldWidget.crossGap ||
+      maxWidth != oldWidget.maxWidth;
 }
 
 /// Brics container with optional width control.
 class Brics extends StatelessWidget {
   final List<Widget> children;
-  final double gap;
-  final double crossGap;
+  final double? gap;
+  final double? crossGap;
   final double? maxWidth;
   final EdgeInsetsGeometry? padding;
   final Alignment alignment;
@@ -66,8 +78,8 @@ class Brics extends StatelessWidget {
   const Brics({
     super.key,
     required this.children,
-    this.gap = 0,
-    this.crossGap = 0,
+    this.gap,
+    this.crossGap,
     this.maxWidth,
     this.padding = EdgeInsets.zero,
     this.alignment = Alignment.topCenter,
@@ -75,22 +87,27 @@ class Brics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final config = BricsConfig.of(context);
+
+    final effectiveGap = gap ?? config.gap;
+    final effectiveCrossGap = crossGap ?? config.crossGap;
+    final effectiveMaxWidth = maxWidth ?? config.maxWidth;
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        final bricsConstraints = maxWidth == null
-            ? null
-            : BoxConstraints(
-                maxWidth: constraints.maxWidth < maxWidth!
-                    ? constraints.maxWidth
-                    : maxWidth!);
+        final constrainedMaxWidth = effectiveMaxWidth != null
+            ? min(constraints.maxWidth, effectiveMaxWidth)
+            : null;
         return Align(
           alignment: alignment,
           child: Container(
-            padding: padding!,
-            constraints: bricsConstraints,
+            padding: padding,
+            constraints: constrainedMaxWidth != null
+                ? BoxConstraints(maxWidth: constrainedMaxWidth)
+                : null,
             child: Wrap(
-              spacing: gap,
-              runSpacing: crossGap,
+              spacing: effectiveGap,
+              runSpacing: effectiveCrossGap,
               children: children,
             ),
           ),
