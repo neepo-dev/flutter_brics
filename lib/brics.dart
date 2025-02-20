@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 
-enum BricWidth { xs, sm, md, lg, xl, xxl }
+/// Enum for breakpoints.
+enum BricWidth {
+  xs, // 0 → 575
+  sm, // 576 → 767
+  md, // 768 → 991
+  lg, // 992 → 1199
+  xl, // 1200 → 1399
+  xxl, // > 1400
+}
 
-// upper breakpoints
-const defaultBricsBreakpoints = BricsBreakpointsConfig(
-  xs: 576,
-  sm: 768,
-  md: 992,
-  lg: 1200,
-  xl: 1400,
-);
-
+/// Configuration for breakpoints.
 class BricsBreakpointsConfig {
-  final int xs;
-  final int sm;
-  final int md;
-  final int lg;
-  final int xl;
+  final int xs, sm, md, lg, xl;
   const BricsBreakpointsConfig({
     required this.xs,
     required this.sm,
@@ -26,6 +22,18 @@ class BricsBreakpointsConfig {
   });
 }
 
+/// Default breakpoints configuration.
+/// You can override it by passing in the [BricsConfig].
+const defaultBricsBreakpoints = BricsBreakpointsConfig(
+  xs: 576,
+  sm: 768,
+  md: 992,
+  lg: 1200,
+  xl: 1400,
+);
+
+/// Global configuration for Brics.
+/// If local values are provided in [Brics], they override these defaults.
 class BricsConfig extends InheritedWidget {
   final BricsBreakpointsConfig breakpoints;
   final int totalColumns;
@@ -46,6 +54,7 @@ class BricsConfig extends InheritedWidget {
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;
 }
 
+/// Brics container with optional width control.
 class Brics extends StatelessWidget {
   final List<Widget> children;
   final double gap;
@@ -91,9 +100,10 @@ class Brics extends StatelessWidget {
   }
 }
 
-// bric builder: send width to builder arguments
+/// [BricBuilder] is a function type that provides the computed width to its builder.
 typedef BricBuilder = Widget Function(BuildContext context, double width);
 
+/// [Bric] calculates its width based on the specified column settings and breakpoints.
 class Bric extends StatelessWidget {
   final Map<BricWidth, int> size;
   final Widget? child;
@@ -107,6 +117,7 @@ class Bric extends StatelessWidget {
   }) : assert(child != null || builder != null,
             'Either child or builder must be provided.');
 
+  /// Determines column count based on screen width.
   int _getColumnCount(
       double width, int totalColumns, BricsBreakpointsConfig breakpoints) {
     if (width < breakpoints.xs) {
