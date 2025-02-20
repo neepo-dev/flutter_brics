@@ -1,6 +1,6 @@
-## 0.0.1
+## 0.1.1
 
-- Initial release with `Brics` and `Bric` widgets.
+- Added a usage examples.
 
 ## 0.1.0
 
@@ -9,3 +9,7 @@
 - Added `gap`, `crossGap`, and `maxWidth` parameters to `BricsConfig`.
 - Refactored and optimized functions, improving code readability and maintainability.
 - Added inline comments for better code documentation.
+
+## 0.0.1
+
+- Initial release with `Brics` and `Bric` widgets.

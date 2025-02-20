@@ -11,4 +11,4 @@ A flexible and lightweight Flutter layout system inspired by Bootstrap.
 
 ```yaml
 dependencies:
-  bric: ^0.0.1
+  bric: ^0.1.1
