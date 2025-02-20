@@ -120,40 +120,26 @@ class Bric extends StatelessWidget {
   /// Determines column count based on screen width.
   int _getColumnCount(
       double width, int totalColumns, BricsBreakpointsConfig breakpoints) {
-    if (width < breakpoints.xs) {
-      return size[BricWidth.xs] ?? totalColumns;
+
+    final breakpointValues = {
+      BricWidth.xs: breakpoints.xs,
+      BricWidth.sm: breakpoints.sm,
+      BricWidth.md: breakpoints.md,
+      BricWidth.lg: breakpoints.lg,
+      BricWidth.xl: breakpoints.xl,
+      BricWidth.xxl: double.infinity,
+    };
+
+    int columnCount = totalColumns;
+    for (final breakpoint in BricWidth.values) {
+      if (size.containsKey(breakpoint)) {
+        columnCount = size[breakpoint]!;
+      }
+      if (width < breakpointValues[breakpoint]!) {
+        return columnCount;
+      }
     }
-    if (width < breakpoints.sm) {
-      return size[BricWidth.sm] ?? size[BricWidth.xs] ?? totalColumns;
-    }
-    if (width < breakpoints.md) {
-      return size[BricWidth.md] ??
-          size[BricWidth.sm] ??
-          size[BricWidth.xs] ??
-          totalColumns;
-    }
-    if (width < breakpoints.lg) {
-      return size[BricWidth.lg] ??
-          size[BricWidth.md] ??
-          size[BricWidth.sm] ??
-          size[BricWidth.xs] ??
-          totalColumns;
-    }
-    if (width < breakpoints.xl) {
-      return size[BricWidth.xl] ??
-          size[BricWidth.lg] ??
-          size[BricWidth.md] ??
-          size[BricWidth.sm] ??
-          size[BricWidth.xs] ??
-          totalColumns;
-    }
-    return size[BricWidth.xxl] ??
-        size[BricWidth.xl] ??
-        size[BricWidth.lg] ??
-        size[BricWidth.md] ??
-        size[BricWidth.sm] ??
-        size[BricWidth.xs] ??
-        totalColumns;
+    return columnCount;
   }
 
   @override
