@@ -44,18 +44,17 @@ class BricsConfig extends InheritedWidget {
 
   const BricsConfig({
     super.key,
-    Widget? child,
+    required super.child,
     this.breakpoints = defaultBricsBreakpoints,
     this.totalColumns = 12,
     this.gap = 0,
     this.crossGap = 0,
     this.maxWidth,
-  }) : super(child: child ?? const SizedBox.shrink());
+  });
 
-  static BricsConfig of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<BricsConfig>() ??
-        const BricsConfig();
-  }
+  static BricsConfig of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<BricsConfig>() ??
+      const BricsConfig(child: SizedBox.shrink());
 
   @override
   bool updateShouldNotify(covariant BricsConfig oldWidget) =>
@@ -76,7 +75,7 @@ class Brics extends StatelessWidget {
   final double? crossGap;
   final double? maxWidth;
   final double? width;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry padding;
   final Alignment alignment;
 
   const Brics({
@@ -121,11 +120,11 @@ class Brics extends StatelessWidget {
     );
 
     return (width == null)
-      ? content
-      : SizedBox(
-        width: width,
-        child: content,
-      );
+        ? content
+        : SizedBox(
+            width: width,
+            child: content,
+          );
   }
 }
 
@@ -149,7 +148,6 @@ class Bric extends StatelessWidget {
   /// Determines column count based on screen width.
   int _getColumnCount(
       double width, int totalColumns, BricsBreakpointsConfig breakpoints) {
-
     final breakpointValues = {
       BricWidth.xs: breakpoints.xs,
       BricWidth.sm: breakpoints.sm,
@@ -174,18 +172,20 @@ class Bric extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final config = BricsConfig.of(context);
-    final width = MediaQuery.sizeOf(context).width;
+    final deviceWidth = MediaQuery.sizeOf(context).width;
     final columnCount =
-        _getColumnCount(width, config.totalColumns, config.breakpoints);
-    final brics = context.findAncestorWidgetOfExactType<Brics>();
+        _getColumnCount(deviceWidth, config.totalColumns, config.breakpoints);
+    final parentBrics = context.findAncestorWidgetOfExactType<Brics>();
+    final effectiveGap = parentBrics?.gap ?? config.gap;
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final gap = brics?.gap ?? 0;
         final totalColumns = config.totalColumns;
         final columnWidth =
-            (constraints.maxWidth - gap * (totalColumns - 1)) / totalColumns;
-        final bricWidth = columnCount * columnWidth + (columnCount - 1) * gap;
+            (constraints.maxWidth - effectiveGap * (totalColumns - 1)) /
+                totalColumns;
+        final bricWidth =
+            columnCount * columnWidth + (columnCount - 1) * effectiveGap;
 
         return SizedBox(
           width: bricWidth,
