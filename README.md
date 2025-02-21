@@ -18,6 +18,7 @@ A flexible and lightweight Flutter library that provides an adaptive grid layout
 ```dart
 Brics(
   children: [
+    
     Bric(
       size: {
         BricWidth.xs: 6,
@@ -26,6 +27,7 @@ Brics(
       },
       child: MyBricContent(),
     ),
+    
     Bric(
       size: {
         BricWidth.md: 8,
@@ -34,6 +36,7 @@ Brics(
       child: MyBricContent(),
     ),
   ],
+
 ),
 ```
 
@@ -54,21 +57,21 @@ Brics(
 )
 ```
 
-![Layout scheme](https://github.com/neepo-dev/flutter_brics/blob/main/example/example_scheme.png?raw=true)
+![Brics layout scheme](https://github.com/neepo-dev/flutter_brics/blob/main/example/example_scheme.png?raw=true)
 
 ## Breakpoints
 
-![Layout scheme](https://github.com/neepo-dev/flutter_brics/blob/main/example/example_breakpoints.png?raw=true)
+![Brics breakpoints](https://github.com/neepo-dev/flutter_brics/blob/main/example/example_breakpoints.png?raw=true)
 
 The following breakpoints are set by default:
 
 ```dart
 const defaultBricsBreakpoints = BricsBreakpointsConfig(
-  xs: 576,
-  sm: 768,
-  md: 992,
-  lg: 1200,
-  xl: 1400,
+    xs: 576,
+    sm: 768,
+    md: 992,
+    lg: 1200,
+    xl: 1400,
 );
 ```
 
