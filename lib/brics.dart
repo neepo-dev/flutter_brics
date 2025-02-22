@@ -41,6 +41,8 @@ class BricsConfig extends InheritedWidget {
   final double gap;
   final double crossGap;
   final double? maxWidth;
+  final WrapAlignment justifyContent;
+  final WrapCrossAlignment alignItems;
 
   const BricsConfig({
     super.key,
@@ -50,6 +52,8 @@ class BricsConfig extends InheritedWidget {
     this.gap = 0,
     this.crossGap = 0,
     this.maxWidth,
+    this.justifyContent = WrapAlignment.start,
+    this.alignItems = WrapCrossAlignment.start,
   });
 
   static BricsConfig of(BuildContext context) =>
@@ -62,13 +66,14 @@ class BricsConfig extends InheritedWidget {
       totalColumns != oldWidget.totalColumns ||
       gap != oldWidget.gap ||
       crossGap != oldWidget.crossGap ||
-      maxWidth != oldWidget.maxWidth;
+      maxWidth != oldWidget.maxWidth ||
+      justifyContent != oldWidget.justifyContent ||
+      alignItems != oldWidget.alignItems;
 }
 
 /// Brics container with optional width control.
 /// In case of error "LayoutBuilder does not support returning intrinsic dimensions":
-/// you just need to set the [width] parameter.
-/// It wraps the entire layout in a fixed-size container.
+/// try to set Brics [width] parameter or wrap parent widget in SizedBox with specified width.
 class Brics extends StatelessWidget {
   final List<Widget> children;
   final double? gap;
@@ -77,6 +82,8 @@ class Brics extends StatelessWidget {
   final double? width;
   final EdgeInsetsGeometry padding;
   final Alignment alignment;
+  final WrapAlignment? justifyContent;
+  final WrapCrossAlignment? alignItems;
 
   const Brics({
     super.key,
@@ -87,6 +94,8 @@ class Brics extends StatelessWidget {
     this.width,
     this.padding = EdgeInsets.zero,
     this.alignment = Alignment.topCenter,
+    this.justifyContent,
+    this.alignItems,
   });
 
   @override
@@ -96,6 +105,8 @@ class Brics extends StatelessWidget {
     final effectiveGap = gap ?? config.gap;
     final effectiveCrossGap = crossGap ?? config.crossGap;
     final effectiveMaxWidth = maxWidth ?? config.maxWidth;
+    final effectiveJustifyContent = justifyContent ?? config.justifyContent;
+    final effectiveAlignItems = alignItems ?? config.alignItems;
 
     final content = LayoutBuilder(
       builder: (context, constraints) {
@@ -112,6 +123,8 @@ class Brics extends StatelessWidget {
             child: Wrap(
               spacing: effectiveGap,
               runSpacing: effectiveCrossGap,
+              crossAxisAlignment: effectiveAlignItems,
+              alignment: effectiveJustifyContent,
               children: children,
             ),
           ),
