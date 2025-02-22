@@ -229,7 +229,8 @@ class BricsSize {
     return BricsSize(currentWidth);
   }
 
-  static BricWidth _getBricWidth(double width, BricsBreakpointsConfig breakpoints) {
+  static BricWidth _getBricWidth(
+      double width, BricsBreakpointsConfig breakpoints) {
     if (width < breakpoints.xs) return BricWidth.xs;
     if (width < breakpoints.sm) return BricWidth.sm;
     if (width < breakpoints.md) return BricWidth.md;
