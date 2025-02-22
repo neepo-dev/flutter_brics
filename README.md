@@ -7,7 +7,7 @@ A flexible and lightweight Flutter library that provides an adaptive grid layout
 ## Features
 - **Responsive Grid Layout:** Define widget widths with column gaps that change at various breakpoints.
 - **Flexible Configuration:** Customize global settings such as breakpoints, total columns, and spacing via an inherited configuration widget.
-
+- **Breakpoint Awareness**: Easily determine the current breakpoint using `context.bricsSize` method.
 
 ## How to use
 
@@ -35,8 +35,8 @@ Brics(
       },
       child: MyBricContent(),
     ),
-  ],
 
+  ],
 ),
 ```
 
