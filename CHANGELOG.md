@@ -1,3 +1,7 @@
+## 0.1.6
+
+- Added `BricsSize` helper for breakpoint-aware comparison methods: `isEqual`, `isLargerThan`, `isSmallerThan`, `atLeast` and `atMost`.
+
 ## 0.1.5
 
 - Add `justifyContent` and `alignItems` parameters to `Brics` and `BricsConfig` widgets.
