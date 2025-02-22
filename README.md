@@ -51,6 +51,8 @@ Brics(
     crossGap: 8, // unset
     padding: EdgeInsets.all(20), // EdgeInsets.zero
     alignment: Alignment.centerLeft, // Alignment.topCenter
+    justifyContent: WrapAlignment.spaceBetween, // WrapAlignment.start
+    alignItems: WrapCrossAlignment.end, // WrapCrossAlignment.start
     width: 500, // unset
     
     children: ...
@@ -60,8 +62,6 @@ Brics(
 ![Brics layout scheme](https://github.com/neepo-dev/flutter_brics/blob/main/example/example_scheme.png?raw=true)
 
 ## Breakpoints
-
-![Brics breakpoints](https://github.com/neepo-dev/flutter_brics/blob/main/example/example_breakpoints.png?raw=true)
 
 The following breakpoints are set by default:
 
@@ -79,6 +79,8 @@ You can override these values in `BricsConfig`.
 
 ### Bric Width Calculation Logic
 
+![Brics breakpoints](https://github.com/neepo-dev/flutter_brics/blob/main/example/example_breakpoints.png?raw=true)
+
 Essentially, `BricWidth` is a range between two breakpoints. For example, `BricWidth.sm` spans from 576px → to 767px. At this window width, the `Bric` will occupy the specified number of columns.
 
 - By default, `Bric` takes 100% of the parent's width
@@ -93,7 +95,8 @@ You can set your own values for the **total number of columns** (default is 12) 
 To specify global `Brics` settings, wrap your root widget with the `BricsConfig` widget to put your settings in the context.
 If these parameters are specified in the `Brics` widget, they will take priority over global settings.
 
-Available global parameters: `breakpoints`, `totalColumns`, `gap`, `crossGap`, `maxWidth`.
+Available global parameters:
+`breakpoints`, `totalColumns`, `gap`, `crossGap`, `maxWidth`, `justifyContent`, `alignItems`.
 
 ```dart
 class MyApp extends StatelessWidget {
@@ -113,6 +116,8 @@ class MyApp extends StatelessWidget {
       gap: 20,
       crossGap: 10,
       maxWidth: 600,
+      justifyContent: WrapAlignment.spaceAround,
+      alignItems: WrapCrossAlignment.center,
       child: MaterialApp(
         home: HomeWidget(),
       ),
