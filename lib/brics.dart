@@ -209,3 +209,38 @@ class Bric extends StatelessWidget {
     );
   }
 }
+
+/// Helper class to check current breakpoint conditions.
+class BricsSize {
+  final BricWidth current;
+
+  BricsSize(this.current);
+
+  bool isEqual(BricWidth size) => current == size;
+  bool isLargerThan(BricWidth size) => current.index > size.index;
+  bool isSmallerThan(BricWidth size) => current.index < size.index;
+  bool atLeast(BricWidth size) => current.index >= size.index;
+  bool atMost(BricWidth size) => current.index <= size.index;
+
+  static BricsSize of(BuildContext context) {
+    final config = BricsConfig.of(context).breakpoints;
+    final width = MediaQuery.sizeOf(context).width;
+    final currentWidth = _getBricWidth(width, config);
+    return BricsSize(currentWidth);
+  }
+
+  static BricWidth _getBricWidth(double width, BricsBreakpointsConfig breakpoints) {
+    if (width < breakpoints.xs) return BricWidth.xs;
+    if (width < breakpoints.sm) return BricWidth.sm;
+    if (width < breakpoints.md) return BricWidth.md;
+    if (width < breakpoints.lg) return BricWidth.lg;
+    if (width < breakpoints.xl) return BricWidth.xl;
+    return BricWidth.xxl;
+  }
+}
+
+/// Extension for quick access to [BricsSize] via BuildContext.
+/// Usage example: context.bricsSize.isEqual(BricWidth.md)
+extension BricsSizeExtension on BuildContext {
+  BricsSize get bricsSize => BricsSize.of(this);
+}
