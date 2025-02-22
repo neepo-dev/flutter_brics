@@ -9,7 +9,7 @@ A flexible and lightweight Flutter library that provides an adaptive grid layout
 - **Flexible Configuration:** Customize global settings such as breakpoints, total columns, and spacing via an inherited configuration widget.
 
 
-## How to Use
+## How to use
 
 **Simple usage:**
 1. Use the `Brics` widget to place `Bric` widgets inside it
@@ -40,7 +40,7 @@ Brics(
 ),
 ```
 
-### Brics Parameters
+### `Brics` parameters
 
 You can set the following parameters for `Brics` (default values are shown in comments):
 
@@ -77,7 +77,7 @@ const defaultBricsBreakpoints = BricsBreakpointsConfig(
 
 You can override these values in `BricsConfig`.
 
-### Bric Width Calculation Logic
+### Bric width calculation logic
 
 ![Brics breakpoints](https://github.com/neepo-dev/flutter_brics/blob/main/example/example_breakpoints.png?raw=true)
 
@@ -86,11 +86,32 @@ Essentially, `BricWidth` is a range between two breakpoints. For example, `BricW
 - By default, `Bric` takes 100% of the parent's width
 - If no size is specified for a `Bric` at a certain range, its width will be equal to the next larger size specified
 
-## Customizing Breakpoints and Column Count
+## **BricsSize** – simplified breakpoint comparisons
+
+`BricsSize` provides an intuitive way to compare breakpoints of current screen width condition.
+
+**Methods of context:**
+- `isEqual`
+- `isLargerThan`
+- `isSmallerThan`
+- `atLeast`
+- `atMost`
+
+```dart
+if (context.bricsSize.isLargerThan(BricWidth.md)) {
+    // Execute logic for `lg` and larger ranges (lg, xl, xxl)
+}
+
+if (context.bricsSize.atMost(BricWidth.md)) {
+    // Execute logic for `md` and smaller ranges (xs, sm, md)
+}
+```
+
+## Customizing **breakpoints** and **column count**
 
 You can set your own values for the **total number of columns** (default is 12) and override **breakpoints** (see image) using `BricsConfig`.
 
-## BricsConfig: Global Brics Settings
+## `BricsConfig`: global Brics settings
 
 To specify global `Brics` settings, wrap your root widget with the `BricsConfig` widget to put your settings in the context.
 If these parameters are specified in the `Brics` widget, they will take priority over global settings.
@@ -126,7 +147,9 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-## Brics inside Dialog
+## Troubleshooting
+
+### Brics inside Dialog
 
 If you place Brics inside widgets like Dialog, BottomSheet, Drawer, Tooltip, and others, you might see the error: **"LayoutBuilder does not support returning intrinsic dimensions."** This occurs because LayoutBuilder tries to calculate intrinsic dimensions, which is not allowed in the context of widgets that require exact dimensions before layout.
 
