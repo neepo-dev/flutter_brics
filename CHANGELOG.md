@@ -1,6 +1,6 @@
 ## 0.1.5
 
-- Add 'justifyContent' and 'alignItems' parameters to Brics and BricsConfig widgets.
+- Add `justifyContent` and `alignItems` parameters to `Brics` and `BricsConfig` widgets.
 
 ## 0.1.4
 
