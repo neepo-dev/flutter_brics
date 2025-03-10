@@ -1,3 +1,7 @@
+## 0.1.7
+
+- Flutter SDK dependency downgrade: from 3.6.1 minimum to 3.0.0.
+
 ## 0.1.6
 
 - Added `BricsSize` helper for breakpoint-aware comparison methods: `isEqual`, `isLargerThan`, `isSmallerThan`, `atLeast` and `atMost`.

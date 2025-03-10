@@ -1,12 +1,12 @@
 name: brics
 description: "A lightweight and flexible Flutter adaptive grid layout system inspired by Bootstrap."
-version: 0.1.6
+version: 0.1.7
 homepage: https://github.com/neepo-dev/flutter_brics
 repository: https://github.com/neepo-dev/flutter_brics
 issue_tracker: https://github.com/neepo-dev/flutter_brics/issues
 
 environment:
-  sdk: ^3.6.1
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
